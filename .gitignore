@@ -1,0 +1,5 @@
+cfd_euler_cpu
+cfd_euler_gpu
+laplace2d
+laplace2d_auto
+laplace

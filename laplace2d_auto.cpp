@@ -57,9 +57,6 @@ int main(int argc, const char** argv)
     Anew[(j)*(imax+2)+jmax+1] = sin(pi * j / (jmax+1))*expf(-pi);
   auto t1 = std::chrono::high_resolution_clock::now();
 
-#pragma omp target data \
-map(A[0:((imax+2) * (jmax+2))]) \
-map(Anew[0:((imax+2) * (jmax+2))])
 
   while ( error > tol && iter < iter_max )
   {

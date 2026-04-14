@@ -1,0 +1,46 @@
+Running at x4 size
+Step 0 completed, total kinetic energy: 157449
+Step 50 completed, total kinetic energy: 157394
+Step 100 completed, total kinetic energy: 157394
+Step 150 completed, total kinetic energy: 157394
+Step 200 completed, total kinetic energy: 157394
+Step 250 completed, total kinetic energy: 157394
+Step 300 completed, total kinetic energy: 157394
+Step 350 completed, total kinetic energy: 157394
+Step 400 completed, total kinetic energy: 157394
+Step 450 completed, total kinetic energy: 157394
+Step 500 completed, total kinetic energy: 157394
+Step 550 completed, total kinetic energy: 157394
+Step 600 completed, total kinetic energy: 157394
+Step 650 completed, total kinetic energy: 157394
+Step 700 completed, total kinetic energy: 157394
+Step 750 completed, total kinetic energy: 157394
+Step 800 completed, total kinetic energy: 157394
+Step 850 completed, total kinetic energy: 157394
+Step 900 completed, total kinetic energy: 157394
+Step 950 completed, total kinetic energy: 157394
+Step 1000 completed, total kinetic energy: 157394
+Step 1050 completed, total kinetic energy: 157394
+Step 1100 completed, total kinetic energy: 157394
+Step 1150 completed, total kinetic energy: 157394
+Step 1200 completed, total kinetic energy: 157394
+Step 1250 completed, total kinetic energy: 157394
+Step 1300 completed, total kinetic energy: 157394
+Step 1350 completed, total kinetic energy: 157394
+Step 1400 completed, total kinetic energy: 157394
+Step 1450 completed, total kinetic energy: 157394
+Step 1500 completed, total kinetic energy: 157394
+Step 1550 completed, total kinetic energy: 157394
+Step 1600 completed, total kinetic energy: 157394
+Step 1650 completed, total kinetic energy: 157394
+Step 1700 completed, total kinetic energy: 157394
+Step 1750 completed, total kinetic energy: 157394
+Step 1800 completed, total kinetic energy: 157394
+Step 1850 completed, total kinetic energy: 157394
+Step 1900 completed, total kinetic energy: 157394
+Step 1950 completed, total kinetic energy: 157394
+Execution time of main time step: 201 ms
+Execution time of boundary conditions: 14 ms
+Execution time of cell updates: 96 ms
+Execution time of update copies: 37 ms
+Execution time of kinetic energy calculation: 52 ms

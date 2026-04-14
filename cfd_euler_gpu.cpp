@@ -92,7 +92,7 @@ int main(int argc, char* argv[]){
 
     // Create flat arrays (with ghost cells)
     const int total_size = (Nx + 2) * (Ny + 2);
-    
+    /*
     vector<double> rhovec(total_size);
     vector<double> rhouvec(total_size);
     vector<double> rhovvec(total_size);
@@ -102,19 +102,20 @@ int main(int argc, char* argv[]){
     vector<double> rhou_newvec(total_size);
     vector<double> rhov_newvec(total_size);
     vector<double> E_newvec(total_size);
-    
-	auto rho = rhovec.data();
-    auto rhou = rhouvec.data();
-    auto rhov = rhovvec.data();
-    auto E = Evec.data();
-    
-    auto rho_new = rho_newvec.data();
-    auto rhou_new = rhou_newvec.data();
-    auto rhov_new = rhov_newvec.data();
-    auto E_new = E_newvec.data();
+    */
+    double rho[total_size];
+    double rhou[total_size];
+    double rhov[total_size];
+    double E[total_size];
+
+    double rho_new[total_size];
+    double rhou_new[total_size];
+    double rhov_new[total_size];
+    double E_new[total_size];
 
     // A mask to mark solid cells (inside the cylinder)
-    vector<bool> solid(total_size, false);
+    //vector<bool> solid(total_size, false);
+	bool solid[total_size];
 
     // ----- Obstacle (cylinder) parameters -----
     const double cx = 0.5;      // Cylinder center x
@@ -168,7 +169,8 @@ int main(int argc, char* argv[]){
 	map(rho_new[0:total_size]) \
 	map(rhou_new[0:total_size]) \
 	map(rhov_new[0:total_size]) \
-	map(E_new[0:total_size])
+	map(E_new[0:total_size]) \
+	map(solid[0:total_size])
 //	map(tofrom:cupdate_time,kinetic_time,copy_time,bound_time)
 {
 
@@ -180,6 +182,7 @@ int main(int argc, char* argv[]){
 		auto bound_start = std::chrono::high_resolution_clock::now();
         // --- Apply boundary conditions on ghost cells ---
         // Left boundary (inflow): fixed free-stream state
+	#pragma omp target teams distribute parallel for
         for (int j = 0; j < Ny+2; j++){
             rho[0*(Ny+2)+j] = rho0;
             rhou[0*(Ny+2)+j] = rho0*u0;
@@ -188,6 +191,7 @@ int main(int argc, char* argv[]){
 
         }
         // Right boundary (outflow): copy from the interior
+	#pragma omp target teams distribute parallel for
         for (int j = 0; j < Ny+2; j++){
             rho[(Nx+1)*(Ny+2)+j] = rho[Nx*(Ny+2)+j];
             rhou[(Nx+1)*(Ny+2)+j] = rhou[Nx*(Ny+2)+j];
@@ -196,6 +200,7 @@ int main(int argc, char* argv[]){
 
         }
         // Bottom boundary: reflective
+	#pragma omp target teams distribute parallel for
         for (int i = 0; i < Nx+2; i++){
             rho[i*(Ny+2)+0] = rho[i*(Ny+2)+1];
             rhou[i*(Ny+2)+0] = rhou[i*(Ny+2)+1];
@@ -204,6 +209,7 @@ int main(int argc, char* argv[]){
 
         }
         // Top boundary: reflective
+	#pragma omp target teams distribute parallel for
         for (int i = 0; i < Nx+2; i++){
             rho[i*(Ny+2)+(Ny+1)] = rho[i*(Ny+2)+Ny];
             rhou[i*(Ny+2)+(Ny+1)] = rhou[i*(Ny+2)+Ny];
@@ -218,8 +224,8 @@ int main(int argc, char* argv[]){
 		auto cupdate_start = std::chrono::high_resolution_clock::now();
         
 		//notice that each iteration only modifies their own  cell
-		#pragma omp target teams distribute parallel for collapse(2)
-		for (int i = 1; i <= Nx; i++){
+	#pragma omp target teams distribute parallel for collapse(2)
+	for (int i = 1; i <= Nx; i++){
             for (int j = 1; j <= Ny; j++){
                 // If the cell is inside the solid obstacle, do not update it
                 if (solid[i*(Ny+2)+j]) {
@@ -272,7 +278,7 @@ int main(int argc, char* argv[]){
 
         // Copy updated values back
 		auto copy_start = std::chrono::high_resolution_clock::now();
-		#pragma omp target teams distribute parallel for collapse(2)
+	#pragma omp target teams distribute parallel for collapse(2)
         for (int i = 1; i <= Nx; i++){
             for (int j = 1; j <= Ny; j++){
                 rho[i*(Ny+2)+j] = rho_new[i*(Ny+2)+j];

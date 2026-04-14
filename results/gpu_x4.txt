@@ -39,8 +39,8 @@ Step 1800 completed, total kinetic energy: 141736
 Step 1850 completed, total kinetic energy: 141342
 Step 1900 completed, total kinetic energy: 140949
 Step 1950 completed, total kinetic energy: 140558
-Execution time of main time step: 250 ms
-Execution time of boundary conditions: 87 ms
-Execution time of cell updates: 67 ms
-Execution time of update copies: 37 ms
-Execution time of kinetic energy calculation: 57 ms
+Execution time of main time step: 262 ms
+Execution time of boundary conditions: 91 ms
+Execution time of cell updates: 71 ms
+Execution time of update copies: 39 ms
+Execution time of kinetic energy calculation: 60 ms

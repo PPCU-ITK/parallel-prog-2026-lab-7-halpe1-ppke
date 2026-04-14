@@ -92,7 +92,9 @@ int main(int argc, char* argv[]){
 
     // Create flat arrays (with ghost cells)
     const int total_size = (Nx + 2) * (Ny + 2);
-    /*
+
+//I DO NOT WANT TO MALLOC, so I'll create them using vectors, and steal the pointer :)
+
     vector<double> rhovec(total_size);
     vector<double> rhouvec(total_size);
     vector<double> rhovvec(total_size);
@@ -102,7 +104,8 @@ int main(int argc, char* argv[]){
     vector<double> rhou_newvec(total_size);
     vector<double> rhov_newvec(total_size);
     vector<double> E_newvec(total_size);
-    */
+
+/*
     double rho[total_size];
     double rhou[total_size];
     double rhov[total_size];
@@ -112,10 +115,23 @@ int main(int argc, char* argv[]){
     double rhou_new[total_size];
     double rhov_new[total_size];
     double E_new[total_size];
+*/
+
+	auto rho = rhovec.data();
+    auto rhou = rhouvec.data();
+    auto rhov = rhovvec.data();
+    auto E = Evec.data();
+    
+    auto rho_new = rho_newvec.data();
+    auto rhou_new = rhou_newvec.data();
+    auto rhov_new = rhov_newvec.data();
+    auto E_new = E_newvec.data();
 
     // A mask to mark solid cells (inside the cylinder)
-    //vector<bool> solid(total_size, false);
-	bool solid[total_size];
+    vector<unsigned char> solidvec(total_size, false); //bool vectors are cursed, turning it into unsigned char
+	auto solid = solidvec.data();
+
+
 
     // ----- Obstacle (cylinder) parameters -----
     const double cx = 0.5;      // Cylinder center x
@@ -128,6 +144,8 @@ int main(int argc, char* argv[]){
     const double v0 = 0.0;
     const double p0 = 1.0;
     const double E0 = p0/(gamma_val - 1.0) + 0.5*rho0*(u0*u0 + v0*v0);
+
+
 
 	//this rund once and would take no time, so I'll skip it
     // ----- Initialize grid and obstacle mask -----
@@ -219,6 +237,8 @@ int main(int argc, char* argv[]){
         }
 		auto bound_end = std::chrono::high_resolution_clock::now();
 		bound_time += bound_end-bound_start;
+
+
 
         // --- Update interior cells using a Lax-Friedrichs scheme ---
 		auto cupdate_start = std::chrono::high_resolution_clock::now();

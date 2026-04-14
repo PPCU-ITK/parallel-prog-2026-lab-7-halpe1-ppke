@@ -1,0 +1,12 @@
+I used the run_cpu.sh and run_gpu.sh files with srun.
+--cpus-per-task=4 for the cpu run
+The commands used for the gpu version is from this labs readme, cpu is from lab2 (and so is the solution)
+
+Conclusion is that gpu is very fast. Also the scaling is different.
+With cpu, the time increase is always larger than the size increase squared, which makes sense, since increasing the 2D size by 4 increases the operation count by 4*4=16.
+However, the time increase with gpu is a lot smaller compared to the size increase, and not consistent (1.3 for x4, 2.9 for x8 and 8.8 for x16).
+
+Some words on the implementation:
+I don't think it was said in class that std::vectors are not really supported.
+However, I still used them to allocate the memory, since allocating x16 on the stack will crash, and I do not want to use malloc.
+I also replaced the bool type in the solid vector for unsigned char, since bool vectors are fake, and I think the data() pointer would reflect it.
